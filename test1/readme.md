@@ -76,8 +76,8 @@ The plan was:
 - [x] Read `product_score.txt`
 - [x] Create new file called `index_user_preference.txt` which contains `UID`, `start_row`, `end_row`. The `UID` refer to unique User ID generated on `user_preference.txt`. While `start_row` and `end_row represent` start and end row number for specific UID.
 - [x] Create function `calc_user_preference` to calculate effective_score
-- [ ] (NOT FINISHED) Create function for performing LEFT JOIN between `product_score` and `user_preference` to get the product score
-- [ ] (NOT FINISHED) Create function for calculate final score
+- [ ] __(NOT FINISHED)__ Create function for performing LEFT JOIN between `product_score` and `user_preference` to get the product score
+- [ ] __(NOT FINISHED)__ Create function for calculate final score
 
 To run:
 
@@ -87,4 +87,4 @@ python3 initialize.py data/user_preference.txt data/product_score.txt
 ```
 
 ### recommend
-- [ ] (NOT FINISHED) Create program `recommend-products.py` to act as the API
+- [ ] __(NOT FINISHED)__ Create program `recommend-products.py` to act as the API
