@@ -343,6 +343,9 @@ def main():
 
 
 if __name__ == '__main__':
+    """
+    python3 initialize.py ./data/user_preference.txt
+    """
     st = time.time()
     main()
     et = (time.time() - st)
