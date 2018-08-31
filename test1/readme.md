@@ -68,7 +68,7 @@ The `user_preference` is built by calling `add_user_preference_story` function.
 
 We have to generate around 100 million of user preferences.
 
-### initiate.py
+### initialize
 
 The plan was:
 - [x] Generate data using __trumania__ as decribed above.
