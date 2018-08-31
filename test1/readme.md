@@ -79,5 +79,12 @@ The plan was:
 - [ ] (NOT FINISHED) Create function for performing LEFT JOIN between `product_score` and `user_preference` to get the product score
 - [ ] (NOT FINISHED) Create function for calculate final score
 
+To run:
+
+```sh
+cd test1/
+python3 initialize.py data/user_preference.txt data/product_score.txt
+```
+
 ### recommend
 - [ ] (NOT FINISHED) Create program `recommend-products.py` to act as the API

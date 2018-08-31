@@ -110,18 +110,6 @@ class InitDB(object):
                 self.create_index(chunk_start, lines)
                 counter += 1
 
-    def indexing_user_preferencenew(self):
-        # Read user preference table
-        with open(self.user_preference, 'r') as f:
-            for lineno, line in enumerate(f):
-
-                if lineno % CHUNK_SIZE == 0:
-
-                    lines = tuple(self.format_col(line, 'user_preference')
-                                  for line in f.readlines())
-                    #self.create_index(chunk_start, lines)
-                    print(len(lines))
-
     def create_index(self, chunk_start, lines):
         index_tmp = list()
         for line in enumerate(lines):
@@ -138,9 +126,9 @@ class InitDB(object):
                     index_tmp = [index_key, rn, rn, ]
                     self.user_preference_idx.append(index_tmp)
                     self.user_preference_idx_dic[index_key] = [rn, rn, ]
-            except:
+            except Exception as e:
                 print(line[1])
-                raise
+                raise e
 
         # DEBUG
         # print(self.user_preference_idx_dic[55])
@@ -175,14 +163,11 @@ class InitDB(object):
             self.t_user_preference = [self.calc_user_preference(
                 line) for line in f.readlines()[startrow:endrow + 1]]
 
-            self.t_user_preference_as_dict = {
-                p[0]: {p[1]: p[4]} for p in self.t_user_preference}
-            pp.pprint(self.t_user_preference[:2])
+            self.t_user_preference_as_dict = {p[1]: (p[0], p[4], ) for p in self.t_user_preference}
 
-            print('The size: ', len(self.t_user_preference),
-                  len(self.t_user_preference_as_dict))
-            #del as_list, as_dict
-
+            pp.pprint(self.t_user_preference_as_dict)
+            # print('The size: ', len(self.t_user_preference),
+            #       len(self.t_user_preference_as_dict))
             # V1 Suspect this is a slow operations
             # as_tup = tuple(self.calc_user_preference(line) for rn, line in enumerate(f) if rn in the_range)
             #as_dict = {p[1]: (p[0], p[4], ) for p in as_tup}
@@ -195,7 +180,7 @@ class InitDB(object):
         pp.pprint(self.t_user_preference[:5])
 
         print('\nThis is user preference as dict:')
-        pp.pprint(self.t_user_preference_as_dict.get(7779))
+        # pp.pprint(self.t_user_preference_as_dict)
 
         # Now to the left join
         # The left join shall be performed per UID
@@ -205,16 +190,15 @@ class InitDB(object):
             print(uid)
 
             # First convert user preference into dict.. oh we already did!
+            # output is consists of 3 columns: Product ID, UID, effective score
             output = list()
             for product in self.t_product_score:
-                # print(self.t_user_preference_as_dict.get(product[0], (0, 0))[1])
-                output_item = product + \
-                    (self.t_user_preference_as_dict.get(
-                        product[0], (0, 0))[1], )
+                output_item = product + (self.t_user_preference_as_dict.get(product[0], (0, 0))[1], )
+                recommendation_score = product
                 output.append(output_item)
 
             print('Output size: \n', len(output))
-            # pp.pprint(output)
+            pp.pprint(output[:5])
 
     def get_recommendation(self):
         pass
@@ -322,7 +306,7 @@ def main():
     print('\n%s...' % operation)
     i.timer(start=True, operation=operation)
     i.indexing_user_preference()
-    i.write_index()
+    # i.write_index()
     i.timer(start=False, operation=operation)
 
     operation = 'Initializing database table [product_score]'
